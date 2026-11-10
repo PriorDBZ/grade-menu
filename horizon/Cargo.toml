@@ -1,0 +1,9 @@
+[package]
+name = "horizon-mod-grade-menu"
+version = "1.0.0"
+edition = "2024"
+publish = false
+
+# La partie indépendante du jeu, testée avec `cargo test`.
+[lib]
+path = "mixins/grade_menu/runtime.rs"

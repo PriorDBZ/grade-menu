@@ -1,0 +1,161 @@
+[mod]
+id = "grade_menu"
+version = "1.0.0-horizon.1"
+priority = 100
+
+# Horizon Nightly 2026-11-08 (tag nightly-source/2026-11-08-fdc87ae) : le mod
+# touche au livre de recettes et aux effets de l'inventaire d'Horizon, il épingle donc ce commit.
+[compatibility]
+horizon_revision = "fdc87aecdbd116bf1e08adcd062fcbaea8c2e2ca"
+
+# La logique sans le jeu (grades, boutons, réglages, homes, commandes, disposition).
+[[module]]
+id = "runtime"
+file = "crates/horizon-client/src/game.rs"
+name = "grade_menu"
+source = "runtime.rs"
+
+# Les icônes en pixel art (générées par gen_icons.py).
+[[module]]
+id = "icons"
+file = "crates/horizon-client/src/game.rs"
+name = "grade_menu_icons"
+source = "icons.rs"
+
+# Le côté jeu, dans le fichier du livre de recettes (pour pouvoir le fermer).
+[[module]]
+id = "glue"
+file = "crates/horizon-client/src/game/recipe_book.rs"
+name = "grade_menu_glue"
+source = "glue.rs"
+visibility = "pub(crate)"
+
+[[injection]]
+id = "list"
+kind = "HEAD"
+hook = "mods"
+hook_version = 1
+helper = "list.rs"
+bindings = [
+  { name = "mods", ty = "&mut Vec<crate::game::native_hooks::NativeMod>", value = "&mut *mods" },
+]
+
+[[injection]]
+id = "render"
+kind = "HEAD"
+hook = "screen_render_post"
+hook_version = 1
+helper = "render.rs"
+bindings = [
+  { name = "game", ty = "&crate::game::Game<'_>", value = "&*self" },
+  { name = "batch", ty = "&mut horizon_client::hud::HudBatch", value = "&mut *batch" },
+  { name = "screen", ty = "&horizon_client::mod_api::NativeScreenView<'_>", value = "screen" },
+]
+
+[[injection]]
+id = "press"
+kind = "HEAD"
+hook = "screen_mouse_button_pressed_pre"
+hook_version = 1
+helper = "press.rs"
+bindings = [
+  { name = "game", ty = "&crate::game::Game<'_>", value = "&*self" },
+  { name = "screen", ty = "&horizon_client::mod_api::NativeScreenView<'_>", value = "screen" },
+  { name = "button", ty = "i32", value = "button" },
+  { name = "canceled", ty = "&mut bool", value = "&mut *canceled" },
+]
+
+[[injection]]
+id = "key"
+kind = "HEAD"
+hook = "screen_key_pressed_pre"
+hook_version = 1
+helper = "key.rs"
+bindings = [
+  { name = "game", ty = "&crate::game::Game<'_>", value = "&*self" },
+  { name = "screen", ty = "&horizon_client::mod_api::NativeScreenView<'_>", value = "screen" },
+  { name = "key", ty = "&str", value = "key" },
+  { name = "canceled", ty = "&mut bool", value = "&mut *canceled" },
+]
+
+[[injection]]
+id = "char"
+kind = "HEAD"
+hook = "screen_char_typed_pre"
+hook_version = 1
+helper = "chr.rs"
+bindings = [
+  { name = "game", ty = "&crate::game::Game<'_>", value = "&*self" },
+  { name = "screen", ty = "&horizon_client::mod_api::NativeScreenView<'_>", value = "screen" },
+  { name = "c", ty = "char", value = "c" },
+  { name = "canceled", ty = "&mut bool", value = "&mut *canceled" },
+]
+
+[[injection]]
+id = "frame"
+kind = "HEAD"
+hook = "frame"
+hook_version = 1
+helper = "frame.rs"
+bindings = [
+  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
+]
+
+[[injection]]
+id = "commands"
+kind = "HEAD"
+hook = "commands"
+hook_version = 1
+helper = "commands.rs"
+bindings = [
+  { name = "commands", ty = "&mut Vec<&'static str>", value = "&mut *commands" },
+]
+
+[[injection]]
+id = "command"
+kind = "HEAD"
+hook = "command"
+hook_version = 1
+helper = "command.rs"
+bindings = [
+  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
+  { name = "command", ty = "&str", value = "command" },
+  { name = "ran", ty = "&mut bool", value = "&mut *ran" },
+]
+
+[[injection]]
+id = "chat"
+kind = "HEAD"
+hook = "client_chat_received"
+hook_version = 1
+helper = "chat.rs"
+bindings = [
+  { name = "system", ty = "bool", value = "system" },
+  { name = "overlay", ty = "bool", value = "overlay" },
+  { name = "message", ty = "&horizon_client::text::Text", value = "&*message" },
+  { name = "cancel", ty = "&mut bool", value = "&mut *cancel" },
+]
+
+# EffectsInInventory : les effets en haut à gauche quand les boutons sont là.
+[[injection]]
+id = "effects"
+kind = "HEAD"
+cancellable = true
+target = "horizon_client::game::potions::Game<'_>::draw_inventory_effects"
+helper = "effects.rs"
+bindings = [
+  { name = "game", ty = "&crate::game::Game<'_>", value = "&*self" },
+  { name = "batch", ty = "&mut horizon_client::hud::HudBatch", value = "&mut *batch" },
+]
+
+# RecipeBookComponent.updateScreenPosition : le menu des homes décale l'inventaire.
+[[injection]]
+id = "shift"
+kind = "HEAD"
+cancellable = true
+target = "horizon_client::game::recipe_book::Game<'_>::recipe_book_shift"
+helper = "shift.rs"
+bindings = [
+  { name = "game", ty = "&crate::game::Game<'_>", value = "&*self" },
+  { name = "width", ty = "f32", value = "width" },
+]

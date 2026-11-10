@@ -55,6 +55,21 @@ cd icones && python3 generer_icones.py   # écrit png/, widgets/ et apercu.png
 
 Le build copie `icones/png` et `icones/widgets` dans les ressources du mod.
 
+## Version Horizon
+
+Le dossier `horizon/` contient la version native (Rust) pour le launcher Horizon, sur le Nightly du 8 novembre 2026 (commit `fdc87ae`). Mêmes boutons, même menu des homes, mêmes commandes `/grade-`.
+
+Installation : mettre `grade_menu.hnmod` dans le dossier `horizon-native-mods` de l'instance, l'activer dans le launcher (page Mods), puis laisser le launcher recompiler le jeu. Les réglages de la version Horizon sont séparés de ceux de la version Java : il faut refaire `/grade-set` une fois.
+
+Pour la construire :
+
+```sh
+cd horizon
+python3 gen_icons.py   # icônes -> mixins/grade_menu/icons.rs
+cargo test             # la logique sans le jeu
+python3 pack.py        # -> grade_menu.hnmod
+```
+
 ## Licence
 
 MIT
