@@ -7,8 +7,8 @@ Mod Fabric (client) pour Minecraft **26.3** : des boutons dans l'inventaire pour
 ## Fonctionnalités
 
 - **Boutons à côté de l'inventaire**, selon le grade choisi. Ils suivent l'inventaire quand le livre de recettes s'ouvre.
-  - ₪ Confirmé·e : mon lit (`/home bed`), chapeau (`/hat`), table de craft (`/craft`)
-  - ★ Premium : en plus, menu des homes, `/spawn`, `/skull`, `/blocks`, `/cartographytable`, `/loom`, `/smithingtable`, `/stonecutter`
+  - Confirmé·e : mon lit (`/home bed`), chapeau (`/hat`), table de craft (`/craft`)
+  - Premium : en plus, menu des homes, `/spawn`, `/skull`, `/blocks`, `/cartographytable`, `/loom`, `/smithingtable`, `/stonecutter`
   - `/trash` n'est volontairement **pas** proposé (trop dangereux depuis l'inventaire).
 - **Menu des homes** (Premium), à la place du livre de recettes :
   - liste lue avec `/homes` (la réponse est cachée du chat), 5 homes par page ;
