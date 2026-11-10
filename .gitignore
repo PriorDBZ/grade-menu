@@ -1,0 +1,16 @@
+# Gradle / Loom
+.gradle/
+build/
+out/
+run/
+logs/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+bin/
+
+# Python (script des icônes)
+__pycache__/
+*.pyc

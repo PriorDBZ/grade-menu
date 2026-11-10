@@ -1,0 +1,48 @@
+plugins {
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+	archivesName = project.archives_base_name
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	testImplementation "org.junit.jupiter:junit-jupiter:6.1.3"
+	testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+}
+
+test {
+	useJUnitPlatform()
+}
+
+processResources {
+	def version = project.version
+	inputs.property "version", version
+	filesMatching("fabric.mod.json") {
+		expand "version": version
+	}
+	// Icônes et éléments d'interface générés par icones/generer_icones.py
+	from("icones/png") {
+		into "assets/grademenu/textures/gui/sprites/icon"
+	}
+	from("icones/widgets") {
+		into "assets/grademenu/textures/gui/sprites/widget"
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 25
+	it.options.encoding = "UTF-8"
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}

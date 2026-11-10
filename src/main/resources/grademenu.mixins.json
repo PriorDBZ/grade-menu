@@ -1,0 +1,18 @@
+{
+	"required": true,
+	"package": "fr.grademenu.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"AbstractContainerScreenAccessor",
+		"AbstractRecipeBookScreenAccessor",
+		"AbstractRecipeBookScreenMixin",
+		"EffectsInInventoryMixin",
+		"InventoryScreenAccessor"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}
