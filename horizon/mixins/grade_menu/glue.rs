@@ -448,7 +448,9 @@ pub(in crate::game) fn frame(game: &mut Game<'_>) {
 
 /// Un message du serveur : true pour le cacher (la réponse à /homes demandée par le mod).
 pub(in crate::game) fn chat(system: bool, overlay: bool, message: &Text) -> bool {
-    system && !overlay && m::with(|ui| ui.chat(&message.plain()))
+    // Système ou non (selon le serveur) : seule une ligne commençant par « Homes: » compte.
+    let _ = system;
+    !overlay && m::with(|ui| ui.chat(&message.plain()))
 }
 
 pub(in crate::game) fn commands(list: &mut Vec<&'static str>) {

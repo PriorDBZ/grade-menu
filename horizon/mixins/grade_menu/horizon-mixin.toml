@@ -1,6 +1,6 @@
 [mod]
 id = "grade_menu"
-version = "1.0.0-horizon.1"
+version = "1.0.1-horizon.1"
 priority = 100
 
 # Horizon Nightly 2026-11-08 (tag nightly-source/2026-11-08-fdc87ae) : le mod
@@ -123,17 +123,18 @@ bindings = [
   { name = "ran", ty = "&mut bool", value = "&mut *ran" },
 ]
 
+# Les messages du serveur : directement dans `chat_received`, car Horizon n'appelle le
+# hook `client_chat_received` que si un mod « trait » est chargé (pas un mod en mixins).
 [[injection]]
 id = "chat"
 kind = "HEAD"
-hook = "client_chat_received"
-hook_version = 1
+cancellable = true
+target = "horizon_client::game::remote::Game<'_>::chat_received"
 helper = "chat.rs"
 bindings = [
   { name = "system", ty = "bool", value = "system" },
   { name = "overlay", ty = "bool", value = "overlay" },
-  { name = "message", ty = "&horizon_client::text::Text", value = "&*message" },
-  { name = "cancel", ty = "&mut bool", value = "&mut *cancel" },
+  { name = "message", ty = "&horizon_client::text::Text", value = "&*line" },
 ]
 
 # EffectsInInventory : les effets en haut à gauche quand les boutons sont là.

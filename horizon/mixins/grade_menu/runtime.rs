@@ -12,7 +12,7 @@ use std::time::{Duration, Instant};
 
 pub const ID: &str = "grade_menu";
 pub const NAME: &str = "Grade Menu";
-pub const VERSION: &str = "1.0.0-horizon.1";
+pub const VERSION: &str = "1.0.1-horizon.1";
 pub const DESCRIPTION: &str = "Boutons dans l'inventaire pour les commandes de grade (Confirmé·e, Premium) \
      et menu des homes. Commandes : /grade-set, /grade-position, /grade-bouton.";
 
